@@ -1,5 +1,5 @@
 services:
-  soundme:
+  db:
     image: mysql
     container_name: soundme
     restart: always
@@ -14,9 +14,22 @@ services:
       - 3308
     volumes:
       - ./db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+   
 
-
-
-
-volumes:
-  soundme:
+   soundme-back:
+    build: .
+    container_name: soundme-back
+    image: soundme
+    depends_on:
+     - db
+    ports:
+      - 8888:8888
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: soundme
+      DB_PASSWORD: soundme
+    links: 
+     - db  
+    

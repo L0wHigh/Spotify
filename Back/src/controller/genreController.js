@@ -64,10 +64,8 @@ async function getGenres(req, res) {
       const { id } = req.params;
       const { categoryName, categoryColor, categoryPictures } = req.body;
   
-      // Appelez le manager pour mettre à jour le genre
       const updatedGenre = await putGenre(id, categoryName, categoryColor, categoryPictures);
   
-      // Retournez la réponse appropriée
       return res.status(200).json(updatedGenre);
     } catch (error) {
       console.error(error);

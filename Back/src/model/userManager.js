@@ -3,8 +3,6 @@ const DEFAULT_PROFILE_PIC = "http://localhost:8888/images/UserProfilePicture/use
 
 const insertUser = async ({
   username,
-  firstname,
-  lastname,
   email,
   password,
   profile_pic,
@@ -13,8 +11,7 @@ const insertUser = async ({
     const user = await users.create({
       data: {
         username,
-        firstname,
-        lastname,
+
         email,
         password,
         profile_pic: profile_pic || DEFAULT_PROFILE_PIC,
@@ -35,6 +32,19 @@ const getUserById = async (id) => {
       },
     });
     if (!getUser) {
+      return { status: 404, data: "Not Found" };
+    }
+    return { status: 200, data: getUser };
+  } catch (err) {
+    console.error(err);
+    return { status: 500, data: "Internal Error" };
+  }
+};
+
+const getAllUsers = async (id) => {
+  try {
+    const getAllUsers = await users.findMany();
+    if (!getAllUsers) {
       return { status: 404, data: "Not Found" };
     }
     return { status: 200, data: getUser };
@@ -67,16 +77,12 @@ const modifyUser = async (id, body) => {
       },
       data: {
         username,
-        firstname,
-        lastname,
         email,
         password,
         profile_pic,
       },
       select: {
         id: true,
-        firstname: true,
-        lastname: true,
         email: true,
         password: false,
         profile_pic: false,
@@ -94,4 +100,5 @@ module.exports = {
   modifyUser,
   getUserById,
   getUserByEmail,
+  getAllUsers
 };

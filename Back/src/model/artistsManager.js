@@ -87,7 +87,7 @@ const getFollowArtistByUser = async (users_id) => {
   try {
     const artists = await follow.findMany({
       where: {
-        users_id : parseInt(users_id)
+        users_id: parseInt(users_id),
       },
       select: {
         users_id: true,
@@ -151,9 +151,40 @@ const checkIfUserIsFollowing = async (users_id, artistId) => {
     return IsUserFollowing !== null;
   } catch (err) {
     console.error(err);
-    throw new Error("Erreur lors de la vérification du suivi de l'artiste par l'utilisateur");
+    throw new Error(
+      "Erreur lors de la vérification du suivi de l'artiste par l'utilisateur"
+    );
   }
 };
+
+const isUserArtist = async (user_id) => {
+  try {
+    const artist = await artists.findFirst({
+      where: { users_id: parseInt(user_id, 10) },
+    });
+
+    return !!artist; // Retourne true si l'artiste est trouvé, sinon false
+  } catch (error) {
+    console.error("Error checking if user is artist:", error);
+    throw error;
+  }
+};
+
+async function getArtistByUserId(user_id) {
+  try {
+    const artist = await artists.findFirst({
+      where: {
+        users_id: parseInt(user_id),
+      },
+    });
+    return artist;
+  } catch (error) {
+    console.log(error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération de l'artiste par ID utilisateur"
+    );
+  }
+}
 
 module.exports = {
   createNewArtist,
@@ -163,5 +194,7 @@ module.exports = {
   unfollowArtist,
   getSongsByArtist,
   getFollowArtistByUser,
-  checkIfUserIsFollowing
+  checkIfUserIsFollowing,
+  isUserArtist,
+  getArtistByUserId,
 };

@@ -53,8 +53,10 @@ const {
   unfollowArtistController,
   getFollowArtistByUserController,
   isFollowing,
+  getUserByArtistController,
+  checkUserIsArtistController,
+  getArtistByUserIdController,
 } = require("../controller/artistsController");
-
 
 const {
   followPlaylistController,
@@ -66,20 +68,24 @@ const {
   deletePlaylistController,
   getAllPlaylistsHasUsersController,
 } = require("../controller/playlistController");
-const { addLike, removeLike, getUserLikes, getUserLikesByArtist, } = require("../controller/likeController");
+const {
+  addLike,
+  removeLike,
+  getUserLikes,
+  getUserLikesByArtist,
+} = require("../controller/likeController");
 const { validateUser } = require("../../services/validators");
 
 // auth
 
 router.post("/login", login);
 
-
 //users
 
 router.get("/users", getUsers);
 router.get("/users/:id", getOneUser);
-router.post("/users",validateUser, hashPassword ,createUser);
-// router.post("/users-test",hashPassword, createUser);
+router.post("/users", validateUser, hashPassword, createUser);
+router.post("/users-test", createUser);
 router.put("/users/:id", updateOneUser);
 router.delete("/users/:id", deleteOneUser);
 
@@ -92,6 +98,8 @@ router.get("/user-follow/:users_id/:artistId", isFollowing);
 
 router.get("/artists", getArtists);
 router.get("/artists/:id", getOneArtist);
+router.get("/is-user-artist/:id", checkUserIsArtistController);
+router.get("/getArtistsByUserId/:id", getArtistByUserIdController);
 router.post("/artists", createArtist);
 router.post("/follow", followArtistController);
 router.post("/unfollow", unfollowArtistController);
@@ -106,20 +114,19 @@ router.post("/songs", createSongs);
 router.put("/songs/:id", updateOneSong);
 
 // likes
-router.get('/like-song/:userId/:artistId', getUserLikesByArtist);
-router.get("/like-song/:id", getUserLikes );
+router.get("/like-song/:userId/:artistId", getUserLikesByArtist);
+router.get("/like-song/:id", getUserLikes);
 router.post("/like-song", addLike);
 router.post("/unlike-song", removeLike);
 
-
-//playlist  
+//playlist
 
 router.get("/playlist", getPlaylistsController);
 router.get("/playlist/:id", getPlaylistByIdController);
 router.post("/playlist", createPlaylistController);
-router.put("/playlist/:id", updatePlaylistController)
-router.delete("/playlist/:id", deletePlaylistController)
-router.get('/playlists-users', getAllPlaylistsHasUsersController);
+router.put("/playlist/:id", updatePlaylistController);
+router.delete("/playlist/:id", deletePlaylistController);
+router.get("/playlists-users", getAllPlaylistsHasUsersController);
 router.post("/follow-playlist", followPlaylistController);
 router.post("/unfollow-playlist", unfollowPlaylistController);
 
@@ -135,8 +142,8 @@ router.delete("/albums/:id", deleteOneAlbum);
 
 router.get("/genres", getGenres);
 router.get("/genres/:id", getOneGenre);
-router.get('/songsByGenre/:genreId', getSongsByGenreController);
-router.get('/albumsByGenre/:genreId', getAlbumsByGenreController);
+router.get("/songsByGenre/:genreId", getSongsByGenreController);
+router.get("/albumsByGenre/:genreId", getAlbumsByGenreController);
 router.delete("/genres/:id", deleteGenre);
 router.post("/genres", insertGenre);
 router.put("/genres/:id", updateGenre);
@@ -151,13 +158,14 @@ router.post(
   }
 );
 
-  router.post(
-    "/upload/albumCover",
-    uploadAlbumCover.single("albumCover"),
-    (req, res) => {
-      return res.status(200).send("Album Cover Uploaded");
-    }, createArtist,
-  );
+router.post(
+  "/upload/albumCover",
+  uploadAlbumCover.single("albumCover"),
+  (req, res) => {
+    return res.status(200).send("Album Cover Uploaded");
+  },
+  createArtist
+);
 
 router.post(
   "/upload/songCover",

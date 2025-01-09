@@ -4,8 +4,8 @@ const joiPassword = Joi.extend(joiPasswordExtendCore);
 
 const userSchema = Joi.object({
   username: Joi.string().max(25).required(),
-  firstname: Joi.string().max(50).required(),
-  lastname: Joi.string().max(50).required(),
+  // firstname: Joi.string().max(50).required(),
+  // lastname: Joi.string().max(50).required(),
   email: Joi.string().email().max(200).required(),
   password: joiPassword
     .string()
@@ -21,11 +21,10 @@ const userSchema = Joi.object({
 });
 
 const validateUser = (req, res, next) => {
-  const { username, firstname, lastname, email, password, profile_pic } =
-    req.body;
+  const { username, email, password, profile_pic } = req.body;
 
   const { error } = userSchema.validate(
-    { username, firstname, lastname, email, password, profile_pic },
+    { username, email, password, profile_pic },
     { abortEarly: false }
   );
 

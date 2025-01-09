@@ -1,6 +1,5 @@
 const multer = require('multer');
 
-// Fonction pour générer une nouvelle configuration de stockage
 const generateStorage = (destination) => {
   return multer.diskStorage({
     destination: (req, file, cb) => {

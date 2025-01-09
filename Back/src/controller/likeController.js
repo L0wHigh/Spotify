@@ -21,7 +21,6 @@ const getUserLikesByArtist = async (req, res) => {
   const { userId, artistId } = req.params;
 
   try {
-      // Utilisez le gestionnaire pour récupérer les likes de l'utilisateur filtrés par l'ID de l'artiste
       const userLikesByArtist = await getLikesByUserAndArtist(
           parseInt(userId, 10),
           parseInt(artistId, 10)

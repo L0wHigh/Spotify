@@ -19,12 +19,11 @@ model albums {
   artistsUserId Int?
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model artists {
   userId            Int                 @id @default(autoincrement())
   name              String              @db.VarChar(50)
   users_id          Int
-  artistCover       String              @db.VarChar(500)
+  artistCover       String?              @db.VarChar(500)
   users             users               @relation(fields: [users_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artists_users1")
   artists_has_songs artists_has_songs[]
   follow            follow[]
@@ -134,8 +133,8 @@ model songs_has_playlistSongs {
 model users {
   id                  Int                   @id @default(autoincrement())
   username            String                @db.VarChar(25)
-  firstname           String                @db.VarChar(50)
-  lastname            String                @db.VarChar(50)
+  // firstname           String                @db.VarChar(50)
+  // lastname            String                @db.VarChar(50)
   email               String                @db.VarChar(200)
   password            String                @db.VarChar(500)
   profile_pic         String?                @db.VarChar(500)

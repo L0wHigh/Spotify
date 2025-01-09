@@ -70,7 +70,6 @@ async function createAlbums(albumData, req, res,) {
 async function createAlbumWithSongs(req, res) {
   console.log("reached");
   try {
-    // Utilisez la fonction d'upload de Multer pour gérer les fichiers
     uploadSongs.array('songs', 20)(req, res, async function (err) {
       if (err instanceof multer.MulterError) {
         console.log(err);
@@ -80,12 +79,10 @@ async function createAlbumWithSongs(req, res) {
         return res.status(500).json({ status: 500, data: "Internal Error" });
       }
 
-      // Obtenez les chemins des fichiers téléchargés
       const songPaths = req.files.map(file => file.path);
 
       console.log(req.body.title);
 
-      // Créez l'album
       const createdAlbum = await albums.create({
         data: {
           title: req.body.title,
@@ -94,14 +91,13 @@ async function createAlbumWithSongs(req, res) {
         },
       });
 
-      // Associez chaque chanson à l'album
       const createdSongs = [];
       for (let index = 0; index < songPaths.length; index++) {
         const songPath = songPaths[index];
         const metadata = await mm.parseFile(songPath);
         const createdSong = await songs.create({
           data: {
-            title: req.body.title, // Assurez-vous d'avoir la logique appropriée pour gérer les titres des chansons
+            title: req.body.title, 
             artist: req.body.artist,
             albumName: req.body.title,
             duration: formatDuration(String(metadata.format.duration)),
@@ -115,7 +111,6 @@ async function createAlbumWithSongs(req, res) {
 
         createdSongs.push(createdSong);
 
-        // Associez la chanson à l'album
         await songs_has_albums.create({
           data: {
             songs: {
@@ -128,12 +123,11 @@ async function createAlbumWithSongs(req, res) {
                 id: createdAlbum.id,
               },
             },
-            order: index + 1, // Assurez-vous d'avoir la logique appropriée pour gérer l'ordre des chansons dans l'album
+            order: index + 1, 
           },
         });
       }
 
-      // Retournez la réponse appropriée
       return res.status(201).json({ message: "Album créé avec succès", data: { album: createdAlbum, songs: createdSongs } });
     });
   } catch (error) {

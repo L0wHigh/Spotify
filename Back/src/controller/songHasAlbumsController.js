@@ -7,7 +7,7 @@ const songsHasAlbumsController = {
       const data = {
         songs_id: songId,
         albums_id: albumId,
-        order: order || 0, // Définissez une valeur par défaut pour l'ordre si nécessaire
+        order: order || 0, 
       };
       await songsHasAlbumsModel.create(data);
       return { status: 200, data: 'Association réussie' };
@@ -16,7 +16,6 @@ const songsHasAlbumsController = {
       return { status: 500, data: 'Erreur interne' };
     }
   },
-  // Ajoutez d'autres méthodes si nécessaire
 };
 
 module.exports = songsHasAlbumsController;

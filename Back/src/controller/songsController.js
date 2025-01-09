@@ -11,17 +11,17 @@ const { uploadSongs } = require("../multer");
 const multer = require("multer");
 const { createAlbums } = require("./albumsController");
 const { songs_has_albums } = require("../../prisma/client");
-const mm = require('music-metadata');
+// const mm = require('music-metadata');
 
-function formatDuration(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.round(seconds % 60);
+// function formatDuration(seconds) {
+//   const minutes = Math.floor(seconds / 60);
+//   const remainingSeconds = Math.round(seconds % 60);
 
-  const formattedMinutes = String(minutes).padStart(2, '0');
-  const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+//   const formattedMinutes = String(minutes).padStart(2, '0');
+//   const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
-  return `${formattedMinutes}:${formattedSeconds}`;
-}
+//   return `${formattedMinutes}:${formattedSeconds}`;
+// }
 
 async function getAllSongs(req, res) {
   try {
@@ -87,7 +87,7 @@ async function createSongs(req, res) {
           req.body.albumOrder
         );
 
-        await linkArtistToSong(1, createdSong.data.id);
+        await linkArtistToSong(5, createdSong.data.id);
       }
 
       return res
@@ -119,7 +119,7 @@ const songsHasAlbumsController = {
       const data = {
         songs_id: songId,
         albums_id: albumId,
-        order: order || 0, // Définissez une valeur par défaut pour l'ordre si nécessaire
+        order: order || 0, 
       };
       await songsHasAlbums.create(data);
       return { status: 200, data: "Association réussie" };
@@ -128,7 +128,6 @@ const songsHasAlbumsController = {
       return { status: 500, data: "Erreur interne" };
     }
   },
-  // Ajoutez d'autres méthodes si nécessaire
 };
 
 async function getSongsWithAlbums(req, res) {

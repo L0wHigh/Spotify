@@ -2,7 +2,7 @@ const { songs, albums, songs_has_albums, user_likes } = require("../../prisma/cl
 
 const insertSongs = async ({
   title,
-  artist,
+  // artist,
   duration,
   albumOrder,
   plays,
@@ -41,8 +41,8 @@ const insertSongs = async ({
     const createdSong = await songs.create({
       data: {
         title,
-        artist,
-        albumName : req.body.album || "real album name",
+        // artist,
+        albumName : req.body.title || "real album name",
         duration,
         path: req?.file?.path || "",
         albumOrder: albumOrder || 1,
