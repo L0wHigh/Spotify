@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+
+const Stack = createStackNavigator();
+
+// const GenreDetailsScreen = ({ route }) => {
+//   const { genreId } = route.params;
+//   return (
+//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//       <Text>Genre ID: {genreId}</Text>
+//     </View>
+//   );
+// };
 
 export default function Genres() {
   const [genres, setGenres] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function getGenres() {
       try {
-        const response = await fetch("http://192.168.1.16:8888/genres", {
+        const response = await fetch("http://192.168.1.11:8888/genres", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -38,9 +52,16 @@ export default function Genres() {
             .map((genre) => (
               <View
                 key={genre.id}
-                style={[styles.content, { backgroundColor: genre.categoryColor }]}
+                style={[
+                  styles.content,
+                  { backgroundColor: genre.categoryColor },
+                ]}
               >
-                <Pressable>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("SingleGenre", { genreId: genre.id })
+                  }
+                >
                   <Text style={styles.text}>{genre.categoryName}</Text>
                 </Pressable>
               </View>
@@ -52,9 +73,16 @@ export default function Genres() {
             .map((genre) => (
               <View
                 key={genre.id}
-                style={[styles.content, { backgroundColor: genre.categoryColor }]}
+                style={[
+                  styles.content,
+                  { backgroundColor: genre.categoryColor },
+                ]}
               >
-                <Pressable>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("SingleGenre", { genreId: genre.id })
+                  }
+                >
                   <Text style={styles.text}>{genre.categoryName}</Text>
                 </Pressable>
               </View>

@@ -8,7 +8,8 @@ import SignIn from "../../Page/SignIn";
 import Preferences from "../Preference";
 import ProfilePage from "../../Page/ProfilePage";
 import ModifyProfile from "../../Page/modifyProfile";
-
+import SingleGenre from "../../Page/singleGenre";
+  
 const Stack = createStackNavigator();
 
 export default function Root() {
@@ -30,6 +31,7 @@ export default function Root() {
               <Stack.Screen name="Preferences" component={Preferences} />
               <Stack.Screen name="ProfilePage" component={ProfilePage} />
               <Stack.Screen name="ModifyProfile" component={ModifyProfile} />
+              <Stack.Screen name="SingleGenre" component={SingleGenre} />
             </Stack.Group>
           </>
         ) : (
@@ -45,6 +47,7 @@ export default function Root() {
             <Stack.Screen name="SignIn" component={SignIn} />
           </Stack.Group>
         )}
+
       </Stack.Navigator>
     </NavigationContainer>
   );

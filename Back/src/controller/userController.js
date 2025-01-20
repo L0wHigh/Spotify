@@ -40,6 +40,7 @@ async function getOneUser(req, res) {
 }
 
 async function createUser(req, res) {
+  console.log(req.body);
   try {
     const { status, data } = await insertUser(req.body);
     if (status === 201) {

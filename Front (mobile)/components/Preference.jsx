@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 export default function Preference({ navigation }) {
   const goToProfilePage = () => {
-    navigation.navigate("ProfilePage"); // Navigate to the ProfilePage component
+    navigation.navigate("ProfilePage");
   };
 
   return (

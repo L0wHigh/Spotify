@@ -65,7 +65,8 @@ async function createSongs(req, res) {
         req: req,
       });
 
-      console.log(createdSong.data.id);
+      // console.log("id de la musique créer :",createdSong.data.id);
+      // console.log("chanson créer : ", createdSong);
 
       if (createdSong.data.title) {
         const createdAlbum = await createAlbums(
@@ -74,12 +75,13 @@ async function createSongs(req, res) {
             artist: createdSong.data.artist,
             albumCover: createdSong.data.songCover,
             genres_id: createdSong.data.genres_id,
+            artistsUserId: createdSong.data.artistsUserId,
           },
           req,
           res
         );
 
-        console.log(createdAlbum);
+        // console.log("album créer :",createdAlbum);
 
         await songsHasAlbumsController.associateSongWithAlbum(
           createdSong.data.id,
@@ -87,7 +89,8 @@ async function createSongs(req, res) {
           req.body.albumOrder
         );
 
-        await linkArtistToSong(5, createdSong.data.id);
+        console.log("id de l'artiste :",req.body.artists_id)
+        await linkArtistToSong(createdSong.data.id, req);
       }
 
       return res

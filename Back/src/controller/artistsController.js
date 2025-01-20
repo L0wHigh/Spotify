@@ -141,6 +141,7 @@ async function getArtistByUserIdController(req, res) {
     return res.status(500).json({ message: "Erreur interne" });
   }
 }
+
 module.exports = {
   createArtist,
   getOneArtist,

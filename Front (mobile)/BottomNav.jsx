@@ -1,11 +1,20 @@
 import * as React from "react";
-import { StyleSheet, Text, View, Image, Pressable, TouchableWithoutFeedback} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Home from "./Page/Home";
 import Search from "./Page/Search";
 import Library from "./Page/Library";
+import Like from "./Page/LibraryItem";
+import SongTable from "./Page/Song";
 
 export default function BottomNav() {
   const Tab = createBottomTabNavigator();
@@ -73,16 +82,16 @@ export default function BottomNav() {
               >
                 Rechercher
               </Text>
-              <View style={{ flexDirection: "row", gap: 20 }}>
+              {/* <View style={{ flexDirection: "row", gap: 20 }}>
                 <Ionicons name="ios-camera-outline" size={24} color="white" />
-              </View>
+              </View> */}
             </View>
           ),
         }}
       />
       <Tab.Screen
         name="Librairie"
-        component={Library}
+        component={SongTable}
         options={{
           tabBarIcon: () => (
             <MaterialIcons name="my-library-music" size={24} color="white" />
@@ -99,7 +108,7 @@ export default function BottomNav() {
               }}
             >
               <View style={styles.mainHeader}>
-              <TouchableWithoutFeedback
+                <TouchableWithoutFeedback
                   onPress={() => navigation.navigate("Preferences")}
                 >
                   <Image

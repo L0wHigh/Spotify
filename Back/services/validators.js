@@ -17,14 +17,16 @@ const userSchema = Joi.object({
     .onlyLatinCharacters()
     .max(500)
     .required(),
-  profile_pic: Joi.string().max(500),
+  // profile_pic: Joi.string().max(500),
 });
 
+
+
 const validateUser = (req, res, next) => {
-  const { username, email, password, profile_pic } = req.body;
+  const { username, email, password } = req.body;
 
   const { error } = userSchema.validate(
-    { username, email, password, profile_pic },
+    { username, email, password },
     { abortEarly: false }
   );
 

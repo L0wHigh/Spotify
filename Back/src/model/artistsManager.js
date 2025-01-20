@@ -64,12 +64,32 @@ const getSongsByArtist = async (artistId) => {
   }
 };
 
-const linkArtistToSong = async (artists_userId, songs_id) => {
+const linkArtistToSong = async (songs_id, req) => {
   try {
+
+    console.log("Valeur de req :", req.body);
+
+    const artists_userId = req.body.artists_id; // Récupérez l'ID de l'artiste depuis req.body
+    console.log("id de l'artiste dans l'artistemanager :", artists_userId);
+
+    if (!artists_userId) {
+      console.error("L'ID de l'artiste est manquant dans req.body.artists_id");
+      return {
+        status: 400,
+        data: "L'ID de l'artiste est manquant.",
+      };
+    }
+
     const link = await artists_has_songs.create({
       data: {
-        artists_userId: artists_userId,
-        songs_id,
+        // artists_userId: req.body.artists_id,
+        // songs_id,
+        artists: {
+          connect: { userId: parseInt(artists_userId) }, 
+        },
+        songs: {
+          connect: { id: songs_id}
+        }
       },
     });
     return { status: 200, data: link };

@@ -11,7 +11,6 @@ const insertUser = async ({
     const user = await users.create({
       data: {
         username,
-
         email,
         password,
         profile_pic: profile_pic || DEFAULT_PROFILE_PIC,
@@ -83,6 +82,7 @@ const modifyUser = async (id, body) => {
       },
       select: {
         id: true,
+        username: true,
         email: true,
         password: false,
         profile_pic: false,
