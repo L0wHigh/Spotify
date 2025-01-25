@@ -9,9 +9,9 @@ const userSchema = Joi.object({
   email: Joi.string().email().max(200).required(),
   password: joiPassword
     .string()
-    .minOfSpecialCharacters(2)
+    .minOfSpecialCharacters(1)
     .minOfLowercase(2)
-    .minOfUppercase(2)
+    .minOfUppercase(1)
     .minOfNumeric(2)
     .noWhiteSpaces()
     .onlyLatinCharacters()
